@@ -1,0 +1,10 @@
+pandas
+plotly
+streamlit
+yfinance
+pandas-datareader
+prophet
+matplotlib
+seaborn
+pornhub_api
+plotly
