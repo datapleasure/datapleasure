@@ -1,0 +1,17 @@
+credentials:
+  usernames:
+    jsmith:
+      email: jsmith@example.com
+      name: John Smith
+      password: abc  # Will be hashed automatically
+    rbriggs:
+      email: rbriggs@example.com
+      name: Rebecca Briggs
+      password: def  # Will be hashed automatically
+cookie:
+  expiry_days: 30
+  key: random_signature_key
+  name: random_cookie_name
+preauthorized:
+  emails:
+    - melsby@example.com
