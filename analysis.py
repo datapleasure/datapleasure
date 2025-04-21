@@ -10,6 +10,11 @@ import random
 import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
+import pkg_resources
+
+# Check streamlit-authenticator version for compatibility
+auth_version = pkg_resources.get_distribution("streamlit-authenticator").version
+st.write(f"Using streamlit-authenticator version: {auth_version}")  # For debugging
 
 # Load configuration for authentication
 with open('config.yaml') as file:
@@ -23,8 +28,18 @@ authenticator = stauth.Authenticate(
     config['cookie']['expiry_days']
 )
 
-# Render login form
-name, authentication_status, username = authenticator.login('Login', 'main')
+# Render login form (use 'main' or fallback to 'body' based on version)
+try:
+    # For newer versions, 'main' should work; for older ones, we’ll test alternatives
+    name, authentication_status, username = authenticator.login('Login', 'main')
+except ValueError as e:
+    if "Location must be one of" in str(e):
+        # Fallback to 'body' or 'sidebar' if 'main' fails
+        try:
+            name, authentication_status, username = authenticator.login('Login', 'body')
+        except:
+            # If 'body' also fails, try 'sidebar'
+            name, authentication_status, username = authenticator.login('Login', 'sidebar')
 
 if authentication_status:
     # Allow logout
@@ -53,7 +68,7 @@ if authentication_status:
                           "blonde", "blowjob", "brunette", "compilation", "creampie", 
                           "cumshot", "ebony", "fetish", "handjob", "hardcore", "hd-porn",
                           "interracial", "latina", "lesbian", "milf", "pornstar", 
-                          "pov", "reality", "redhead", "rough-sex", "solo-female", 
+                          "pov", "リアル", "redhead", "rough-sex", "solo-female", 
                           "squirt", "threesome", "toys"]
         selected_categories = st.sidebar.multiselect("Categories", categories_list)
     except:
